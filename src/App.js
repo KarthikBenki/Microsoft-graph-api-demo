@@ -1,10 +1,16 @@
-import './App.css';
+import { MsalProvider, MsalAuthenticationTemplate } from '@azure/msal-react';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { msalConfig } from './authConfig';
+
+const pca = new PublicClientApplication(msalConfig);
 
 function App() {
   return (
-    <div className="App">
-      <h1>Graph Api</h1>
-    </div>
+    <MsalProvider instance={pca}>
+      <MsalAuthenticationTemplate>
+        <h1>Graph Api</h1>
+      </MsalAuthenticationTemplate>
+    </MsalProvider>
   );
 }
 
