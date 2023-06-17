@@ -8,10 +8,8 @@ const pca = new PublicClientApplication(msalConfig);
 function App() {
   return (
     <MsalProvider instance={pca}>
-      <MsalAuthenticationTemplate>
         <h1>Graph Api</h1>
         <MyComponent/>
-      </MsalAuthenticationTemplate>
     </MsalProvider>
   );
 }
