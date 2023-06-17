@@ -1,21 +1,21 @@
 import { useMsal } from '@azure/msal-react';
 import axios from 'axios';
+import { endPoints, loginRequest } from './authConfig';
 
 function MyComponent() {
   const { instance, accounts } = useMsal();
 
-  const callGraphApi = async () => {
-    const response = await instance.acquireTokenSilent({
-      scopes: ['User.Read'], // Add the required scopes for the API call
-      account: accounts[0], // Use the first signed-in account
-    });
+  const signIn = async () => {
+    const response = await instance.loginPopup(loginRequest);
 
     const accessToken = response.accessToken;
+
+    console.log(accessToken);
 
     // Make API calls using the access token
     // Example: Fetch user profile
     try {
-      const apiResponse = await axios.get('https://graph.microsoft.com/v1.0/me', {
+      const apiResponse = await axios.get(endPoints.graphMeEndPoint, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -28,9 +28,20 @@ function MyComponent() {
     }
   };
 
+  const signOut = async () => {
+     await instance.logoutPopup(loginRequest)
+     .then(()=>{
+      console.log("logged out");
+     })
+     .catch((err)=>{
+      console.log(err);
+     })
+  }
+
   return (
     <div>
-      <button onClick={callGraphApi}>Call Microsoft Graph API</button>
+      <button onClick={signIn}>SignIn</button>
+      <button onClick={signOut}>SignOut</button>
     </div>
   );
 }

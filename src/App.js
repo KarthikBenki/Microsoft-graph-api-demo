@@ -6,6 +6,7 @@ import MyComponent from './MyComponent';
 const pca = new PublicClientApplication(msalConfig);
 
 function App() {
+
   return (
     <MsalProvider instance={pca}>
         <h1>Graph Api</h1>
